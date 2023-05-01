@@ -10,10 +10,26 @@
              http://www.springframework.org/schema/batch https://www.springframework.org/schema/batch/spring-batch.xsd
              http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd">
 
-    <!-- (1) -->
     <import resource="classpath:META-INF/spring/job-base-context.xml"/>
 
-    <!-- (2) -->
     <context:component-scan base-package="org.terasoluna.batch.tutorial.dbaccess.tasklet"/>
 
+    <mybatis:scan base-package="org.terasoluna.batch.tutorial.common.repository" factory-ref="jobSqlSessionFactory"/>
+
+    <bean id="reader"
+          class="org.mybatis.spring.batch.MyBatisCursorItemReader"
+          p:queryId="org.terasoluna.batch.tutorial.common.repository.MemberInfoRepository.cursor"
+          p:sqlSessionFactory-ref="jobSqlSessionFactory"/>
+
+    <bean id="writer" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
+          p:statementId="org.terasoluna.batch.tutorial.common.repository.MemberInfoRepository.updatePointAndStatus"
+         p:sqlSessionTemplate-ref="batchModeSqlSessionTemplate"/>
+
+    <!-- (1) -->
+    <batch:job id="jobPointAddTasklet" job-repository="jobRepository">
+        <batch:step id="jobPointAddTasklet.step01"> <!-- (2) -->
+            <batch:tasklet transaction-manager="jobTransactionManager"
+                           ref="pointAddTasklet"/> <!-- (3) -->
+        </batch:step>
+    </batch:job>
 </beans>
