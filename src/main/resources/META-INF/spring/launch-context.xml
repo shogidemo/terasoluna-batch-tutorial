@@ -123,4 +123,11 @@
 
     <bean id="jobResourcelessTransactionManager"
           class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
+          
+     <!-- database initialize definition -->
+	<jdbc:initialize-database data-source="jobDataSource" enabled="${data-source.initialize.enabled:false}" ignore-failures="ALL">
+    	<jdbc:script location="${tutorial.create-table.script}" />
+    	<jdbc:script location="${tutorial.insert-data.script}" />
+	</jdbc:initialize-database>
+
 </beans>
