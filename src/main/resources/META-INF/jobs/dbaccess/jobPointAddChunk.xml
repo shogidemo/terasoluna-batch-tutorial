@@ -14,18 +14,25 @@
 
     <context:component-scan base-package="org.terasoluna.batch.tutorial.dbaccess.chunk"/>
 
-    <!-- (1) -->
     <mybatis:scan base-package="org.terasoluna.batch.tutorial.common.repository" factory-ref="jobSqlSessionFactory"/>
 
-    <!-- (2) -->
     <bean id="reader"
           class="org.mybatis.spring.batch.MyBatisCursorItemReader"
           p:queryId="org.terasoluna.batch.tutorial.common.repository.MemberInfoRepository.cursor"
           p:sqlSessionFactory-ref="jobSqlSessionFactory"/>
 
-    <!-- (3) -->
     <bean id="writer" class="org.mybatis.spring.batch.MyBatisBatchItemWriter"
           p:statementId="org.terasoluna.batch.tutorial.common.repository.MemberInfoRepository.updatePointAndStatus"
           p:sqlSessionTemplate-ref="batchModeSqlSessionTemplate"/>
 
+    <!-- (1) -->
+    <batch:job id="jobPointAddChunk" job-repository="jobRepository">
+        <batch:step id="jobPointAddChunk.step01"> <!-- (2) -->
+            <batch:tasklet transaction-manager="jobTransactionManager">
+                <batch:chunk reader="reader"
+                             processor="pointAddItemProcessor"
+                             writer="writer" commit-interval="10"/> <!-- (3) -->
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
 </beans>
