@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+arguments=-Porg.gradle.java.installations.paths\=C:/Develop/Pleiades/Pleiades2021/java/6,C:/Develop/Pleiades/Pleiades2021/java/7,C:/Develop/Pleiades/Pleiades2021/java/8,C:/Develop/Pleiades/Pleiades2021/java/11,C:/Develop/Pleiades/Pleiades2021/java/16,C:/Develop/Pleiades/Pleiades2021/java/17;-Dorg.gradle.warning.mode\=all
+auto.sync=true
+### Mac はビルドスクリプトでパス書き換え
+java.home=C:/Develop/Pleiades/Pleiades2021/java/11
