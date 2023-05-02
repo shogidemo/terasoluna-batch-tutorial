@@ -1,5 +1,7 @@
 package org.terasoluna.batch.tutorial.common.dto;
 
+import javax.validation.constraints.Max;
+
 public class MemberInfoDto {
     private String id; 		// 会員番号に対応するフィールドとしてidを定義する。
 
@@ -7,6 +9,7 @@ public class MemberInfoDto {
 
     private String status; 	// 商品購入フラグに対応するフィールドとしてstatusを定義する。
 
+    @Max(1000000)
     private int point; 		// ポイントに対応するフィールドとしてpointを定義する。
 
     public String getId() {
